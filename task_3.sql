@@ -1,2 +1,2 @@
--- List all tables in the given database
+-- List all tables in alx_book_store database
 SHOW TABLES;
