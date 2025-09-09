@@ -1,49 +1,45 @@
--- Create Database
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'alx_book_store')
-BEGIN
-    CREATE DATABASE alx_book_store;
-END
-GO
+-- Create database
+CREATE DATABASE IF NOT EXISTS alx_book_store;
 USE alx_book_store;
 
--- Create Authors Table
+-- Create Authors table
 CREATE TABLE Authors (
-    author_id INT PRIMARY KEY IDENTITY(1,1),
+    author_id INT PRIMARY KEY AUTO_INCREMENT,
     author_name VARCHAR(215) NOT NULL
 );
 
--- Create Books Table
+-- Create Books table
 CREATE TABLE Books (
-    book_id INT PRIMARY KEY IDENTITY(1,1),
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(130) NOT NULL,
     author_id INT,
-    price FLOAT NOT NULL,
+    price DOUBLE NOT NULL,
     publication_date DATE,
-    FOREIGN KEY (author_id) REFERENCES Authors(author_id)
+    FOREIGN KEY (author_id) REFERENCES Authors(author_id) ON DELETE CASCADE
 );
 
--- Create Customers Table
+-- Create Customers table
 CREATE TABLE Customers (
-    customer_id INT PRIMARY KEY IDENTITY(1,1),
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(215) NOT NULL,
-    email VARCHAR(215) UNIQUE NOT NULL,
-    address TEXT
+    email VARCHAR(215) NOT NULL UNIQUE,
+    address TEXT NOT NULL
 );
 
--- Create Orders Table
+-- Create Orders table
 CREATE TABLE Orders (
-    order_id INT PRIMARY KEY IDENTITY(1,1),
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_id INT,
     order_date DATE NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id) ON DELETE CASCADE
 );
 
--- Create Order_Details Table
+-- Create Order_Details table
 CREATE TABLE Order_Details (
-    orderdetailid INT PRIMARY KEY IDENTITY(1,1),
+    orderdetailid INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
     book_id INT,
-    quantity FLOAT NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
-    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+    quantity DOUBLE NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES Books(book_id) ON DELETE CASCADE
 );
